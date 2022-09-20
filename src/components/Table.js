@@ -25,7 +25,7 @@ export default function List() {
       </thead>
       <tbody>
         { planetsList
-          .filter((planet) => planet.name.includes(nameFilter))
+          .filter((planet) => planet.name.includes(nameFilter.filterByName.name))
           .map((planet, index) => (
             <tr key={ `${planet.name}-${index}` }>
               <td>{ planet.name }</td>

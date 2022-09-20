@@ -8,8 +8,12 @@ export default function Filters() {
     <section>
       <input
         data-testid="name-filter"
-        onChange={ (event) => setNameFilter(event.target.value) }
-        value={ nameFilter }
+        onChange={ (event) => setNameFilter({
+          filterByName: {
+            name: event.target.value,
+          },
+        }) }
+        value={ nameFilter.filterByName.name }
       />
     </section>
   );
