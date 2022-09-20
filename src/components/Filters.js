@@ -1,8 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function Filters() {
-  const { nameFilter, setNameFilter } = useContext(PlanetsContext);
+  const { nameFilter, setNameFilter,
+    filterByNumValue, setfilterByNumValue } = useContext(PlanetsContext);
+
+  const columnFilterOptions = ['population', 'orbital_period', 'diameter',
+    'rotation_period', 'surface_water'];
+  const operatorFilterOprions = ['maior que', 'menor que', 'igual a'];
+
+  const [columnValue, setColumnValue] = useState(columnFilterOptions[0]);
+  const [operatorValue, setOperatorValue] = useState(operatorFilterOprions[0]);
+  const [filterValue, setFilterValue] = useState('0');
+  // const [columnValue, setColumnValue] = useState(filterOptions[0]);
 
   return (
     <section>
@@ -15,6 +25,44 @@ export default function Filters() {
         }) }
         value={ nameFilter.filterByName.name }
       />
+      <select
+        data-testid="column-filter"
+        onChange={ (({ target }) => setColumnValue(target.value)) }
+      >
+        { columnFilterOptions.map((option, index) => (
+          <option key={ index } value={ option }>{option}</option>
+        ))}
+      </select>
+      <select
+        data-testid="comparison-filter"
+        onChange={ (({ target }) => setOperatorValue(target.value)) }
+      >
+        { operatorFilterOprions.map((option, index) => (
+          <option key={ index } value={ option }>{option}</option>
+        ))}
+      </select>
+      <input
+        data-testid="value-filter"
+        type="number"
+        onChange={ ({ target }) => setFilterValue(target.value) }
+        value={ filterValue }
+      />
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ () => setfilterByNumValue({
+          filterByNumericValues: [
+            ...filterByNumValue.filterByNumericValues,
+            {
+              column: columnValue,
+              comparison: operatorValue,
+              value: filterValue,
+            },
+          ],
+        }) }
+      >
+        Filtrar
+      </button>
     </section>
   );
 }

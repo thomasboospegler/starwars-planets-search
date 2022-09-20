@@ -8,6 +8,7 @@ export default function PlanetsProvider({ children }) {
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState('');
   const [nameFilter, setNameFilter] = useState({ filterByName: { name: '' } });
+  const [filterByNumValue, setfilterByNumValue] = useState({ filterByNumericValues: [] });
 
   const fetchPlanetsList = async () => {
     setIsFetching(true);
@@ -31,8 +32,10 @@ export default function PlanetsProvider({ children }) {
     isFetching,
     error,
     nameFilter,
+    filterByNumValue,
     fetchPlanetsList,
     setNameFilter,
+    setfilterByNumValue,
   };
 
   return (

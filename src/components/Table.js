@@ -2,7 +2,23 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function List() {
-  const { planetsList, nameFilter } = useContext(PlanetsContext);
+  const { planetsList, nameFilter, filterByNumValue } = useContext(PlanetsContext);
+
+  // const filter = (planet) => {
+  //   filterByNumValue.filterByNumericValues.map((value) => {
+  //     switch (value.comparison) {
+  //     case 'maior que':
+  //       console.log('teste maior');
+  //       return planet[value.column] > value.value;
+  //     case 'menor que':
+  //       return planet[value.column] < value.value;
+  //     case 'igual a':
+  //       return planet[value.column] === value.value;
+  //     default:
+  //       return true;
+  //     }
+  //   });
+  // };
 
   return (
     <table>
@@ -26,6 +42,19 @@ export default function List() {
       <tbody>
         { planetsList
           .filter((planet) => planet.name.includes(nameFilter.filterByName.name))
+          .filter((planet) => filterByNumValue.filterByNumericValues.map((value) => {
+            switch (value.comparison) {
+            case 'maior que':
+              console.log('teste maior');
+              return +planet[value.column] > +value.value;
+            case 'menor que':
+              return +planet[value.column] < +value.value;
+            case 'igual a':
+              return +planet[value.column] === +value.value;
+            default:
+              return false;
+            }
+          }).every((item) => item === true))
           .map((planet, index) => (
             <tr key={ `${planet.name}-${index}` }>
               <td>{ planet.name }</td>
