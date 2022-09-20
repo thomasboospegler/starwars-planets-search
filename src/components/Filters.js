@@ -5,14 +5,14 @@ export default function Filters() {
   const { nameFilter, setNameFilter,
     filterByNumValue, setfilterByNumValue } = useContext(PlanetsContext);
 
-  const columnFilterOptions = ['population', 'orbital_period', 'diameter',
+  const options = ['population', 'orbital_period', 'diameter',
     'rotation_period', 'surface_water'];
   const operatorFilterOprions = ['maior que', 'menor que', 'igual a'];
 
+  const [columnFilterOptions, setColumnFilterOptions] = useState(options);
   const [columnValue, setColumnValue] = useState(columnFilterOptions[0]);
   const [operatorValue, setOperatorValue] = useState(operatorFilterOprions[0]);
   const [filterValue, setFilterValue] = useState('0');
-  // const [columnValue, setColumnValue] = useState(filterOptions[0]);
 
   return (
     <section>
@@ -50,16 +50,21 @@ export default function Filters() {
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ () => setfilterByNumValue({
-          filterByNumericValues: [
-            ...filterByNumValue.filterByNumericValues,
-            {
-              column: columnValue,
-              comparison: operatorValue,
-              value: filterValue,
-            },
-          ],
-        }) }
+        onClick={ () => {
+          const optionIndex = columnFilterOptions.indexOf(columnValue);
+          columnFilterOptions.splice(optionIndex, 1);
+          setColumnFilterOptions(columnFilterOptions);
+          return setfilterByNumValue({
+            filterByNumericValues: [
+              ...filterByNumValue.filterByNumericValues,
+              {
+                column: columnValue,
+                comparison: operatorValue,
+                value: filterValue,
+              },
+            ],
+          });
+        } }
       >
         Filtrar
       </button>

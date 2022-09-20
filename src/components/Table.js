@@ -4,22 +4,6 @@ import PlanetsContext from '../context/PlanetsContext';
 export default function List() {
   const { planetsList, nameFilter, filterByNumValue } = useContext(PlanetsContext);
 
-  // const filter = (planet) => {
-  //   filterByNumValue.filterByNumericValues.map((value) => {
-  //     switch (value.comparison) {
-  //     case 'maior que':
-  //       console.log('teste maior');
-  //       return planet[value.column] > value.value;
-  //     case 'menor que':
-  //       return planet[value.column] < value.value;
-  //     case 'igual a':
-  //       return planet[value.column] === value.value;
-  //     default:
-  //       return true;
-  //     }
-  //   });
-  // };
-
   return (
     <table>
       <thead>
@@ -45,7 +29,6 @@ export default function List() {
           .filter((planet) => filterByNumValue.filterByNumericValues.map((value) => {
             switch (value.comparison) {
             case 'maior que':
-              console.log('teste maior');
               return +planet[value.column] > +value.value;
             case 'menor que':
               return +planet[value.column] < +value.value;
