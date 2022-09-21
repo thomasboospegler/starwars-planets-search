@@ -2,7 +2,9 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function List() {
-  const { planetsList, nameFilter, filterByNumValue } = useContext(PlanetsContext);
+  const { planetsList, nameFilter,
+    filterByNumValue, sortOptions } = useContext(PlanetsContext);
+  const sortHelpNumber = -1;
 
   return (
     <table>
@@ -38,9 +40,22 @@ export default function List() {
               return false;
             }
           }).every((item) => item === true))
+          .sort((a, b) => {
+            switch (sortOptions.order.sort) {
+            case 'ASC':
+              if (a[sortOptions.order.column] === 'unknown') return 1;
+              return +a[sortOptions.order.column] > +b[sortOptions.order.column]
+                ? 1 : sortHelpNumber;
+            case 'DESC':
+              return +a[sortOptions.order.column] > +b[sortOptions.order.column]
+                ? sortHelpNumber : 1;
+            default:
+              return false;
+            }
+          })
           .map((planet, index) => (
             <tr key={ `${planet.name}-${index}` }>
-              <td>{ planet.name }</td>
+              <td data-testid="planet-name">{ planet.name }</td>
               <td>{ planet.rotation_period }</td>
               <td>{ planet.orbital_period }</td>
               <td>{ planet.diameter }</td>

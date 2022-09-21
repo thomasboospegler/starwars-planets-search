@@ -3,7 +3,9 @@ import PlanetsContext from '../context/PlanetsContext';
 
 export default function Filters() {
   const { nameFilter, setNameFilter,
-    filterByNumValue, setfilterByNumValue } = useContext(PlanetsContext);
+    filterByNumValue, setfilterByNumValue,
+    setSortOptions,
+  } = useContext(PlanetsContext);
 
   const options = ['population', 'orbital_period', 'diameter',
     'rotation_period', 'surface_water'];
@@ -13,6 +15,9 @@ export default function Filters() {
   const [columnValue, setColumnValue] = useState(columnFilterOptions[0]);
   const [operatorValue, setOperatorValue] = useState(operatorFilterOprions[0]);
   const [filterValue, setFilterValue] = useState('0');
+
+  const [sortColumnValue, setSortColumnValue] = useState(options[0]);
+  const [sortOptionValue, setsortOptionValue] = useState('');
 
   return (
     <section>
@@ -102,6 +107,52 @@ export default function Filters() {
               </button>
             </div>
           ))}
+      </div>
+      <div>
+        <select
+          data-testid="column-sort"
+          onChange={ (({ target }) => setSortColumnValue(target.value)) }
+        >
+          { options.map((option, index) => (
+            <option key={ index } value={ option }>{option}</option>
+          ))}
+        </select>
+        <div>
+          <label htmlFor="track">
+            ASC
+            <input
+              data-testid="column-sort-input-asc"
+              type="radio"
+              name="sort-option"
+              id="track"
+              value="ASC"
+              onClick={ ({ target }) => setsortOptionValue(target.value) }
+            />
+          </label>
+          <label htmlFor="event">
+            DESC
+            <input
+              data-testid="column-sort-input-desc"
+              type="radio"
+              name="sort-option"
+              id="event"
+              value="DESC"
+              onClick={ ({ target }) => setsortOptionValue(target.value) }
+            />
+          </label>
+        </div>
+        <button
+          type="button"
+          data-testid="column-sort-button"
+          onClick={ () => {
+            setSortOptions({ order: {
+              column: sortColumnValue,
+              sort: sortOptionValue,
+            } });
+          } }
+        >
+          Filtrar
+        </button>
       </div>
     </section>
   );
