@@ -89,26 +89,6 @@ export default function Filters() {
         </button>
       </div>
       <div>
-        {filterByNumValue.filterByNumericValues
-          .map(({ column, comparison, value }, index) => (
-            <div key={ index } data-testid="filter">
-              <span>{`${column} ${comparison} ${value}`}</span>
-              <button
-                type="button"
-                onClick={ () => {
-                  const filters = filterByNumValue.filterByNumericValues
-                    .filter((filter) => filter.column !== column);
-                  console.log(filters);
-                  setfilterByNumValue({ filterByNumericValues: filters });
-                  setColumnFilterOptions([...columnFilterOptions, column]);
-                } }
-              >
-                🗑
-              </button>
-            </div>
-          ))}
-      </div>
-      <div>
         <select
           data-testid="column-sort"
           onChange={ (({ target }) => setSortColumnValue(target.value)) }
@@ -153,6 +133,26 @@ export default function Filters() {
         >
           Filtrar
         </button>
+      </div>
+      <div>
+        {filterByNumValue.filterByNumericValues
+          .map(({ column, comparison, value }, index) => (
+            <div key={ index } data-testid="filter">
+              <span>{`${column} ${comparison} ${value}`}</span>
+              <button
+                type="button"
+                data-testid="button-remove-filter"
+                onClick={ () => {
+                  const filters = filterByNumValue.filterByNumericValues
+                    .filter((filter) => filter.column !== column);
+                  setfilterByNumValue({ filterByNumericValues: filters });
+                  setColumnFilterOptions([...columnFilterOptions, column]);
+                } }
+              >
+                🗑
+              </button>
+            </div>
+          ))}
       </div>
     </section>
   );
