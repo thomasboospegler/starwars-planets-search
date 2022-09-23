@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import '../styles/Filters.css';
 
 export default function Filters() {
   const { nameFilter, setNameFilter,
@@ -20,8 +21,8 @@ export default function Filters() {
   const [sortOptionValue, setsortOptionValue] = useState('');
 
   return (
-    <section>
-      <div>
+    <section className="filters-container">
+      <div className="name-filter">
         <input
           data-testid="name-filter"
           onChange={ (event) => setNameFilter({
@@ -31,8 +32,12 @@ export default function Filters() {
           }) }
           value={ nameFilter.filterByName.name }
         />
+      </div>
+
+      <div className="filters">
         <select
           data-testid="column-filter"
+          placeholder="Coluna"
           onChange={ (({ target }) => setColumnValue(target.value)) }
         >
           { columnFilterOptions.map((option, index) => (
@@ -87,8 +92,6 @@ export default function Filters() {
         >
           Remover Filtros
         </button>
-      </div>
-      <div>
         <select
           data-testid="column-sort"
           onChange={ (({ target }) => setSortColumnValue(target.value)) }
@@ -97,9 +100,8 @@ export default function Filters() {
             <option key={ index } value={ option }>{option}</option>
           ))}
         </select>
-        <div>
+        <div className="sort-filters-container">
           <label htmlFor="track">
-            ASC
             <input
               data-testid="column-sort-input-asc"
               type="radio"
@@ -108,9 +110,9 @@ export default function Filters() {
               value="ASC"
               onClick={ ({ target }) => setsortOptionValue(target.value) }
             />
+            ASC
           </label>
           <label htmlFor="event">
-            DESC
             <input
               data-testid="column-sort-input-desc"
               type="radio"
@@ -119,6 +121,7 @@ export default function Filters() {
               value="DESC"
               onClick={ ({ target }) => setsortOptionValue(target.value) }
             />
+            DESC
           </label>
         </div>
         <button
@@ -134,7 +137,8 @@ export default function Filters() {
           Filtrar
         </button>
       </div>
-      <div>
+
+      <div className="actived-filters-container">
         {filterByNumValue.filterByNumericValues
           .map(({ column, comparison, value }, index) => (
             <div key={ index } data-testid="filter">

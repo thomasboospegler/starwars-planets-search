@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import '../styles/Table.css';
 
 export default function List() {
   const { planetsList, nameFilter,
@@ -55,6 +56,7 @@ export default function List() {
           })
           .map((planet, index) => (
             <tr key={ `${planet.name}-${index}` }>
+              { console.log(planet.films) }
               <td data-testid="planet-name">{ planet.name }</td>
               <td>{ planet.rotation_period }</td>
               <td>{ planet.orbital_period }</td>
@@ -64,7 +66,11 @@ export default function List() {
               <td>{ planet.terrain }</td>
               <td>{ planet.surface_water }</td>
               <td>{ planet.population }</td>
-              <td>{ planet.films }</td>
+              <td className="films">
+                { planet.films.map((film) => (
+                  <p key={ film }>{ film }</p>
+                )) }
+              </td>
               <td>{ planet.created }</td>
               <td>{ planet.edited }</td>
               <td>{ planet.url }</td>
